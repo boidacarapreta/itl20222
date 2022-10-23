@@ -1,35 +1,23 @@
 radio.onReceivedNumber(function (receivedNumber) {
-    if (receivedNumber >= bairro * 10 && receivedNumber <= bairro * 10 + 9) {
-        comando = receivedNumber % (bairro * 10)
-        if (comando == 0) {
-            pins.digitalWritePin(DigitalPin.P0, 0)
-        }
-        if (comando == 1) {
-            pins.digitalWritePin(DigitalPin.P0, 1)
-        }
-        basic.showNumber(comando)
-    }
+    led.plot(receivedNumber / 10, receivedNumber % 10)
+})
+input.onGesture(Gesture.TiltLeft, function () {
+    sprite.change(LedSpriteProperty.X, -1)
 })
 input.onButtonPressed(Button.A, function () {
-    if (bairro == 9) {
-        bairro = 1
-    } else {
-        bairro = bairro + 1
-    }
-    basic.showNumber(bairro)
-})
-input.onButtonPressed(Button.AB, function () {
-    radio.sendNumber(bairro * 10 + comando)
-    basic.showNumber(bairro * 10 + comando)
+    sprite.change(LedSpriteProperty.Y, -1)
 })
 input.onButtonPressed(Button.B, function () {
-    comando = (comando + 1) % 10
-    basic.showNumber(comando)
+    sprite.change(LedSpriteProperty.Y, 1)
 })
-let comando = 0
-let bairro = 0
+input.onGesture(Gesture.TiltRight, function () {
+    sprite.change(LedSpriteProperty.X, 1)
+})
+let sprite: game.LedSprite = null
 radio.setGroup(1)
 radio.setTransmitPower(7)
-bairro = 1
-comando = 0
-basic.showNumber(bairro)
+sprite = game.createSprite(2, 2)
+loops.everyInterval(1000, function () {
+    pins.analogWritePin(AnalogPin.P0, (256 - input.lightLevel()) * 4)
+    radio.sendNumber(sprite.get(LedSpriteProperty.X) * 10 + sprite.get(LedSpriteProperty.Y))
+})
