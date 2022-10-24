@@ -8,6 +8,7 @@ radio.onReceivedNumber(function (receivedNumber) {
     } else if (receivedNumber == 11) {
         remoto.change(LedSpriteProperty.Y, 1)
     } else if (receivedNumber == 99) {
+        pins.digitalWritePin(DigitalPin.P0, 1)
         game.setScore(0)
         game.gameOver()
     }
@@ -41,5 +42,6 @@ let remoto: game.LedSprite = null
 let local: game.LedSprite = null
 radio.setGroup(1)
 radio.setTransmitPower(7)
+pins.digitalWritePin(DigitalPin.P0, 0)
 local = game.createSprite(2, 2)
 remoto = game.createSprite(2, 2)
