@@ -11,10 +11,7 @@ def main():
     getenv('SDL_VIDEODRIVER', default='dummy')
     serial_port = getenv('SERIAL_PORT', default='/dev/ttyACM0')
     serial_speed = getenv('SERIAL_SPEED', default='115200')
-    try:
-        rasp = serial.Serial(serial_port, int(serial_speed))
-    except:
-        rasp = None
+    rasp = serial.Serial(serial_port, int(serial_speed))
     #
     # Iniciar o pygame e relógio interno
     pygame.init()
@@ -70,20 +67,18 @@ def main():
                     # botão 6: Back
                     # botão 7: Start
                     # botão 8: Xbox
-                    if joysticks[j].get_button(0):
-                        comando = '0' # liga energia do bairro
-                    elif joysticks[j].get_button(1):
-                        comando = '1' # desliga energia do bairro
-                    else:
-                        comando = None
+                    #
+                    # Detectar algum botão pressionado
+                    comando = None
+                    for botao in range(0, 6):
+                        if joysticks[j].get_button(botao):
+                            comando = str(botao)
                     #
                     # Escrever na porta serial (ou em stdout)
                     if comando:
-                        mensagem = bairro + comando
-                        if rasp:
-                            rasp.write(mensagem.encode())
-                        else:
-                            print(mensagem)
+                        mensagem = bairro + comando + '\n'
+                        rasp.write(mensagem.encode())
+                        print(mensagem)
         #
         # Aguardar 1 segundo
         clock.tick(1000)
