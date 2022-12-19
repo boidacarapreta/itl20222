@@ -22,7 +22,7 @@ Para editar este repositório no MakeCode.
 "Essa imagem mostra o bloco de códigos da última confirmação no "mestre"".
 Esta imagem pode demorar alguns minutos para atualizar.
 
-![Uma visão renderizada dos blocos](https://github.com/boidacarapreta/itl20222/raw/master/.github/makecode/blocks.png)
+![Uma visão renderizada dos blocos](https://github.com/boidacarapreta/itl20222/raw/aulas/.github/makecode/blocks.png)
 
 #### Metadados (usados para pesquisa, renderização)
 
